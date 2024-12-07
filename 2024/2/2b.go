@@ -8,17 +8,21 @@ import (
 	"strings"
 )
 
-var log = true
+var log = false
 
 func RunB(r io.Reader) int {
 	s := bufio.NewScanner(r)
 	safe := 0
 	for s.Scan() {
 		if isLineSafeB(s.Text()) {
-			fmt.Printf("Line %v is safe\n", s.Text())
+			if log {
+				fmt.Printf("Line %v is safe\n", s.Text())
+			}
 			safe++
 		} else {
-			fmt.Printf("Line %v is unsafe\n", s.Text())
+			if log {
+				fmt.Printf("Line %v is unsafe\n", s.Text())
+			}
 		}
 	}
 	if err := s.Err(); err != nil {
@@ -117,17 +121,23 @@ func isSliceSafe(nums []int) bool {
 }
 
 func isPrevBad(prev3, prev2, prev, curr, next, next2 int) bool {
-	fmt.Printf("Checking prev %v\n", prev)
+	if log {
+		fmt.Printf("Checking prev %v\n", prev)
+	}
 	return isChangeOk(prev3, prev2, curr) && isChangeOk(prev2, curr, next) && isChangeOk(curr, next, next2)
 }
 
 func isPrev2Bad(prev3, prev2, prev, curr, next, next2 int) bool {
-	fmt.Printf("Checking prev2 %v\n", prev2)
+	if log {
+		fmt.Printf("Checking prev2 %v\n", prev2)
+	}
 	return isChangeOk(prev3, prev, curr) && isChangeOk(prev, curr, next) && isChangeOk(curr, next, next2)
 }
 
 func isCurrBad(prev3, prev2, prev, curr, next, next2 int) bool {
-	fmt.Printf("Checking curr %v\n", curr)
+	if log {
+		fmt.Printf("Checking curr %v\n", curr)
+	}
 	return isChangeOk(prev3, prev2, prev) && isChangeOk(prev2, prev, next) && isChangeOk(prev, next, next2)
 }
 
